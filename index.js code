@@ -1,0 +1,105 @@
+import React, { useState, useEffect } from 'react';
+
+function App() {
+  const [totalBooks, setTotalBooks] = useState(0);
+  const [books, setBooks] = useState({});
+  const [bookTitle, setBookTitle] = useState('');
+  const [bookAuthor, setBookAuthor] = useState('');
+  const [bookId, setBookId] = useState('');
+  const [availability, setAvailability] = useState(null);
+
+  useEffect(() => {
+    // Initialize with mock data
+    setTotalBooks(0);
+  }, []);
+
+  const addBook = () => {
+    const newTotalBooks = totalBooks + 1;
+    const newBook = { id: newTotalBooks, title: bookTitle, author: bookAuthor, available: true };
+    setBooks({ ...books, [newTotalBooks]: newBook });
+    setTotalBooks(newTotalBooks);
+    setBookTitle('');
+    setBookAuthor('');
+  };
+
+  const rentBook = () => {
+    if (books[bookId] && books[bookId].available) {
+      const updatedBooks = { ...books, [bookId]: { ...books[bookId], available: false } };
+      setBooks(updatedBooks);
+    } else {
+      console.error("Book is not available");
+    }
+  };
+
+  const checkAvailability = () => {
+    if (books[bookId]) {
+      setAvailability(books[bookId].available);
+    } else {
+      console.error("Book does not exist");
+    }
+  };
+
+  return (
+    <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', minHeight: '100vh' }}>
+      <div style={{ backgroundColor: 'pink', padding: '20px', borderRadius: '10px' }}>
+        <h1>Bookstore</h1>
+        <p>Total Books: {totalBooks}</p>
+
+        <div>
+          <h2>Add Book</h2>
+          <input
+            type="text"
+            placeholder="Book Title"
+            value={bookTitle}
+            onChange={(e) => setBookTitle(e.target.value)}
+          />
+          <input
+            type="text"
+            placeholder="Book Author"
+            value={bookAuthor}
+            onChange={(e) => setBookAuthor(e.target.value)}
+          />
+          <button onClick={addBook}>Add Book</button>
+        </div>
+
+        <div>
+          <h2>Rent Book</h2>
+          <input
+            type="number"
+            placeholder="Book ID"
+            value={bookId}
+            onChange={(e) => setBookId(e.target.value)}
+          />
+          <button onClick={rentBook}>Rent Book</button>
+        </div>
+
+        <div>
+          <h2>Check Availability</h2>
+          <input
+            type="number"
+            placeholder="Book ID"
+            value={bookId}
+            onChange={(e) => setBookId(e.target.value)}
+          />
+          <button onClick={checkAvailability}>Check Availability</button>
+          {availability !== null && (
+            <p>{availability ? 'Available' : 'Not Available'}</p>
+          )}
+        </div>
+
+        <div>
+          <h2>Book List</h2>
+          <ul>
+            {Object.keys(books).map(id => (
+              <li key={id}>
+                <strong>ID:</strong> {books[id].id} - <strong>Title:</strong> {books[id].title} - <strong>Author:</strong> {books[id].author} - <strong>Status:</strong> {books[id].available ? 'Available' : 'Rented'}
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default App;
