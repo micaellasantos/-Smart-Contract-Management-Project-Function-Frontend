@@ -1,4 +1,4 @@
-# -Smart-Contract-Management-Project-Function-Frontend
+# Smart Contract Management Project Function Frontend
 Frontend functions, when combined with the corresponding backend logic and smart contract capabilities, form a comprehensive smart contract management system that facilitates efficient contract.
 
 ## Description
